@@ -1,0 +1,14 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      # Using 'main' for latest Zephyr 4.1 / HWMv2 support.
+      # For production, pin to a release tag e.g. revision: v0.4
+      # See: https://zmk.dev/blog/2025/06/20/pinned-zmk
+      revision: main
+      import: app/west.yml
+  self:
+    path: config
