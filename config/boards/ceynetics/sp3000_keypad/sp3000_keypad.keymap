@@ -1,0 +1,69 @@
+/*
+ * SP3000 Scanner Keypad — ZMK Keymap
+ *
+ * PLACEHOLDER keycodes — capture actual HID scancodes from original
+ * SP3000 keyboard using evtest/xev, then update this file.
+ *
+ * Switch-to-Matrix Map (verified from KiCad KEY_MATRIX.kicad_sch):
+ *
+ *        C0    C1    C2    C3    C4    C5    C6    C7    C8    C9
+ *  R0:  SW2   SW7   SW11  SW16  SW21  SW26  SW31  SW36  SW41  ---
+ *  R1:  SW3   SW8   SW12  SW17  SW22  SW27  ---   SW37  ---   SW34
+ *  R2:  SW4   SW9   SW13  SW18  SW23  SW28  SW33  SW38  SW43  SW35
+ *  R3:  SW5   SW1   SW14  SW19  SW24  SW29  ---   SW39  ---   SW42
+ *  R4:  SW6   SW10  SW15  SW20  SW25  SW30  ---   SW40  ---   SW44
+ *
+ * 43 switches + encoder push = 44 active / 50 total positions.
+ * Empty: R0C9, R1C6, R1C8, R3C6, R3C8, R4C6, R4C8
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/outputs.h>
+
+#define DEFAULT 0
+#define BT_CTRL 1
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            display-name = "SP3000";
+            /*
+             * Placeholder — color/density keys → numpad per manual §2.3.
+             *
+             *        C0      C1      C2      C3      C4      C5      C6        C7      C8      C9
+             * R0:   F1      F2      F3      F4      F5      F6      ESC       UP      PSCRN   (layer)
+             * R1:   LALT    KP7     KP8     KP9     F7      F9      ---       TAB     ---     F11
+             * R2:   LSHIFT  KP4     KP5     KP6     F8      F10     PAUSE     LEFT    DOWN    RIGHT
+             * R3:   BKSP    KP0     KP1     KP2     KP3     KPDOT   ---       ENTER   ---     HOME
+             * R4:   DEL     COMMA   DOT     PGUP    PGDN    INS     ---       END     ---     RALT
+             */
+            bindings = <
+                &kp F1     &kp F2     &kp F3     &kp F4     &kp F5      &kp F6      &kp ESC         &kp UP      &kp PSCRN    &mo BT_CTRL
+                &kp LALT   &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp F7      &kp F9      &none           &kp TAB     &none        &kp F11
+                &kp LSHFT  &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp F8      &kp F10     &kp PAUSE_BREAK &kp LEFT    &kp DOWN     &kp RIGHT
+                &kp BSPC   &kp KP_N0  &kp KP_N1  &kp KP_N2  &kp KP_N3   &kp KP_DOT  &none           &kp RET     &none        &kp HOME
+                &kp DEL    &kp COMMA  &kp DOT    &kp PG_UP   &kp PG_DN   &kp INS     &none           &kp END     &none        &kp RALT
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        bt_ctrl_layer {
+            display-name = "BT/RGB";
+            bindings = <
+                &bt BT_SEL 0  &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4    &bt BT_CLR      &none  &out OUT_TOG  &none  &trans
+                &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI &rgb_ug RGB_EFF &none  &none         &none  &none
+                &none         &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &rgb_ug RGB_EFR &none  &none         &none  &none
+                &bootloader   &none           &none           &none           &none           &sys_reset      &none  &none         &none  &none
+                &none         &none           &none           &none           &none           &none           &none  &none         &none  &none
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN>;
+        };
+    };
+};

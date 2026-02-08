@@ -1,0 +1,61 @@
+# Copyright (c) 2025 Ceynetics
+# SPDX-License-Identifier: MIT
+
+# ── Core ──────────────────────────────────────────────
+CONFIG_ARM_MPU=y
+CONFIG_GPIO=y
+
+# ── USB ───────────────────────────────────────────────
+CONFIG_USB_DEVICE_STACK=y
+CONFIG_USB_NRFX=y
+CONFIG_ZMK_USB=y
+
+# ── BLE ───────────────────────────────────────────────
+CONFIG_BT=y
+CONFIG_BT_CTLR=y
+CONFIG_ZMK_BLE=y
+CONFIG_ZMK_BLE_CLEAR_BONDS_ON_START=n
+
+# ── Keyboard ──────────────────────────────────────────
+CONFIG_ZMK_KEYBOARD_NAME="SP3000 Keypad"
+
+# ── Encoder (EC11) ────────────────────────────────────
+CONFIG_EC11=y
+CONFIG_EC11_TRIGGER_GLOBAL_THREAD=y
+
+# ── RGB underglow (SK6812Mini-E) ──────────────────────
+# NOTE: CONFIG_WS2812_STRIP removed — auto-enabled in Zephyr 4.1+
+CONFIG_ZMK_RGB_UNDERGLOW=y
+CONFIG_ZMK_RGB_UNDERGLOW_EFF_START=0
+CONFIG_ZMK_RGB_UNDERGLOW_HUE_START=0
+CONFIG_ZMK_RGB_UNDERGLOW_SAT_START=100
+CONFIG_ZMK_RGB_UNDERGLOW_BRT_START=50
+CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE=y
+
+# ── Battery ───────────────────────────────────────────
+CONFIG_ZMK_BATTERY_REPORTING=y
+CONFIG_ZMK_BATTERY_REPORT_INTERVAL=60
+CONFIG_ZMK_MAX17048=y
+CONFIG_I2C=y
+
+# ── Clock ─────────────────────────────────────────────
+# External 32.768 KHz crystal on XL1/XL2 (P0.00/P0.01)
+CONFIG_CLOCK_CONTROL_NRF_K32SRC_XTAL=y
+CONFIG_CLOCK_CONTROL_NRF_K32SRC_20PPM=y
+
+# ── Deep sleep ────────────────────────────────────────
+CONFIG_ZMK_SLEEP=y
+CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=900000
+
+# ── Matrix ────────────────────────────────────────────
+CONFIG_ZMK_KSCAN_MATRIX_POLLING=n
+
+# ── Flash / NVS ──────────────────────────────────────
+CONFIG_BUILD_OUTPUT_UF2=y
+CONFIG_USE_DT_CODE_PARTITION=y
+CONFIG_MPU_ALLOW_FLASH_WRITE=y
+CONFIG_NVS=y
+CONFIG_SETTINGS_NVS=y
+CONFIG_FLASH=y
+CONFIG_FLASH_PAGE_LAYOUT=y
+CONFIG_FLASH_MAP=y
