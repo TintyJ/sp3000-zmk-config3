@@ -1,5 +1,0 @@
-board:
-  name: sp3000_keypad
-  vendor: ceynetics
-  socs:
-  - name: nrf52840
