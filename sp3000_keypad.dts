@@ -1,0 +1,30 @@
+// Updated Device Tree Source (DTS) for the SP3000 Keypad
+
+/dts-v1/;
+
+#include <dt-bindings/serial/serial.h>
+
+fragment@0 {
+    target = <&i2c0>;
+    __overlay__ {
+        status = "okay";
+        // Fixing I2C sleep state
+        i2c-sleep-state = <1>;
+    };
+};
+
+fragment@1 {
+    target = <&gpio0>;
+    __overlay__ {
+        // Configuring GPIOTE
+        gpio-interrupts {
+            compatible = "nordic,nrf-gpio";
+            // Set configurations for specific GPIO pins
+            pin = <9>; // Example pin number
+            sense = "rising";
+            action = "toggle";
+        };
+    };
+};
+
+// Add other necessary configurations as needed. 
