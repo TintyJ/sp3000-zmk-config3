@@ -77,25 +77,25 @@
         wakeup-source;
         diode-direction = "col2row";
 
-        row-gpios
-            = <&gpio1  0 GPIO_ACTIVE_HIGH>   /* ROW0 — P1.00 */
-            , <&gpio1  4 GPIO_ACTIVE_HIGH>   /* ROW1 — P1.04 */
-            , <&gpio1  6 GPIO_ACTIVE_HIGH>   /* ROW2 — P1.06 */
-            , <&gpio1  9 GPIO_ACTIVE_HIGH>   /* ROW3 — P1.09 */
-            , <&gpio1 11 GPIO_ACTIVE_HIGH>   /* ROW4 — P1.11 */
+row-gpios
+            = <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio1  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
 
         col-gpios
-            = <&gpio1 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL0 — P1.10 */
-            , <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL1 — P0.28 */
-            , <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL2 — P1.13 */
-            , <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL3 — P0.29 */
-            , <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL4 — P0.31 */
-            , <&gpio0 30 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL5 — P0.30 */
-            , <&gpio0  7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL6 — P0.07 (low-freq) */
-            , <&gpio0 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL7 — P0.13 */
-            , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL8 — P0.24 */
-            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  /* COL9 — P0.09 (NFC pin) */
+            = <&gpio1 10 GPIO_ACTIVE_HIGH>
+            , <&gpio0 28 GPIO_ACTIVE_HIGH>
+            , <&gpio1 13 GPIO_ACTIVE_HIGH>
+            , <&gpio0 29 GPIO_ACTIVE_HIGH>
+            , <&gpio0 31 GPIO_ACTIVE_HIGH>
+            , <&gpio0 30 GPIO_ACTIVE_HIGH>
+            , <&gpio0  7 GPIO_ACTIVE_HIGH>
+            , <&gpio0 13 GPIO_ACTIVE_HIGH>
+            , <&gpio0 24 GPIO_ACTIVE_HIGH>
+            , <&gpio0  9 GPIO_ACTIVE_HIGH>
             ;
     };
 
