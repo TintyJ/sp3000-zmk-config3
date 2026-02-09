@@ -99,6 +99,19 @@
             ;
     };
 
+    /*
+     * External power control — required by ZMK RGB underglow.
+     * This PCB has no hardware power-cut MOSFET for the LEDs
+     * (U3 level shifter OE is hardwired to GND = always enabled).
+     * Using P1.07 as a dummy control pin — verify this pin is
+     * not routed to anything on your PCB. If it is, pick a
+     * different unconnected GPIO.
+     */
+    ext_power {
+        compatible = "zmk,ext-power-generic";
+        control-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
+    };
+
     /* Rotary Encoder — EC11E09244BS (80 detents, 20 triggers/rotation) */
     sensors: sensors {
         compatible = "zmk,keymap-sensors";
@@ -181,7 +194,7 @@
          * ZMK's Zephyr 3.5 update.
          * If ZMK merges upstream support, change to "maxim,max17048".
          */
-        compatible = "zmk,maxim-17048";
+        compatible = "zmk,maxim-max17048";
         reg = <0x36>;
         status = "okay";
     };
