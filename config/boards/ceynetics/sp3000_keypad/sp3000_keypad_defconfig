@@ -34,6 +34,7 @@ CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE=y
 
 # ── SPI for RGB LEDs (REQUIRED!) ──────────────────────
 CONFIG_SPI=y
+CONFIG_WS2812_STRIP=y
 CONFIG_NFCT_PINS_AS_GPIOS=y
 
 # ── Battery ───────────────────────────────────────────
