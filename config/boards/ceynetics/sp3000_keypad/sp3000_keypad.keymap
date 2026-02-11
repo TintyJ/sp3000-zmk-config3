@@ -1,12 +1,9 @@
 /*
  * SP3000 Scanner Keypad — ZMK Keymap
- * FULLY MAPPED based on systematic testing
+ * LABEL-CORRECT MAPPING - Each key sends what its label says
  *
- * Dead columns: C0-C4 (F1-F5 don't work, SORT/ORDER dead, M4 dead)
- * Working columns: C5-C9
- * Encoder: Reversed direction, push button not working
- *
- * Physical → Matrix mapping verified by testing each key
+ * Based on systematic testing to identify physical positions,
+ * then remapped so each key does what its label indicates.
  */
 
 #include <behaviors.dtsi>
@@ -25,51 +22,46 @@
         default_layer {
             display-name = "SP3000";
             /*
-             * CORRECTED MAPPING - Each physical key now sends correct code
-             *
-             * Physical key → What it SHOULD send
-             * ============================================
-             * ROW 0: F1-F5 (DEAD), F6, PRINT/STOP, SCAN/CANCEL, SORT/ORDER (DEAD)
+             * Physical key labels → What they now send
+             * ==========================================
+             * ROW 0: F1-F5(dead), F6, PRINT/STOP, SCAN/CANCEL, SORT/ORDER(dead), encoder
              * ROW 1: ALT, 7, 8, 9, FILM DRIVE, FULL PANO, ↑, M1
-             * ROW 2: SHIFT, 4, 5, 6, HOLD, PRINT SIZE, ←, FIELD, →, M2  
+             * ROW 2: SHIFT, 4, 5, 6, HOLD, PRINT SIZE, ←, FIELD, →, M2
              * ROW 3: 0, 1, 2, 3, +3D, COLOR KEY, ↓, M3
-             * ROW 4: PSET, ◁, ◀, ▶, ▷, PASS, START/ENTER, M4 (DEAD)
+             * ROW 4: PSET, ◁, ◀, ▶, ▷, PASS, START/ENTER, M4(dead)
              *
-             * Shifted LEFT by 1 column to fix offset
+             * Each position corrected to send what the physical key label indicates
              */
             bindings = <
-                // R0: Dead cols 0-4, then F6, ESC, UP, ???, layer key, encoder
-                &none       &none       &none       &none       &none       &kp F6      &kp ESC     &kp UP      &kp PSCRN   &mo BT_CTRL
+                // R0: F1-F5 dead, F6, PRINT/STOP→ESC, SCAN/CANCEL→ESC, SORT/ORDER dead, layer key
+                &none       &none       &none       &none       &none       &kp F6      &kp ESC         &kp ESC         &none           &mo BT_CTRL
                 
-                // R1: ALT first (was last), then 7,8,9, F7, F9, TAB, F11, empty, empty
-                &kp LALT    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp F7      &kp F9      &kp TAB     &kp F11     &none       &none
+                // R1: ALT, 7, 8, 9, FILM DRIVE→F7, FULL PANO→F9, ↑→UP, M1→F11
+                &kp LALT    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp F7      &kp F9      &kp UP          &kp F11         &none           &none
                 
-                // R2: SHIFT first (was last), then 4,5,6, F8, F10, PAUSE, LEFT, DOWN, RIGHT
-                &kp LSHFT   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp F8      &kp F10     &kp PAUSE_BREAK &kp LEFT    &kp DOWN    &kp RIGHT
+                // R2: SHIFT, 4, 5, 6, HOLD→F8, PRINT SIZE→F10, ←→LEFT, FIELD→F12, →→RIGHT, M2→F13
+                &kp LSHFT   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp F8      &kp F10     &kp LEFT        &kp F12         &kp RIGHT       &kp F13
                 
-                // R3: Numbers 0-3 first (was BSPC,0,1,2), then 3, DOT, ENTER, empty, HOME, empty
-                &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_DOT  &kp RET     &none       &kp HOME    &none       &kp BSPC
+                // R3: 0→KP0, 1→KP1, 2→KP2, 3→KP3, +3D→KP_DOT, COLOR KEY→ESC, ↓→DOWN, M3→F14
+                &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_DOT  &kp ESC     &none           &kp DOWN        &none           &kp F14
                 
-                // R4: DEL first (was last), COMMA, DOT, PGUP, PGDN, INS, END, empty, RALT, empty
-                &kp DEL     &kp COMMA   &kp DOT     &kp PG_UP   &kp PG_DN   &kp INS     &kp END     &none       &kp RALT    &none
+                // R4: PSET→F1, ◁→PREV, ◀→REWIND, ▶→PLAY, ▷→NEXT, PASS→F2, START/ENTER→ENTER, M4 dead
+                &kp F1      &kp C_PREV  &kp C_RW    &kp C_PP    &kp C_FF    &kp F2      &kp RET         &none           &none           &none
             >;
             
-            // Encoder reversed - swap directions
+            // Encoder: Fixed reversed direction
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         bt_ctrl_layer {
             display-name = "BT/RGB";
             /*
-             * Hold the layer key (R0C9 - currently mapped to PSCRN position) to access:
-             * - BT pairing/clearing
-             * - RGB controls
-             * - Bootloader & reset
+             * Hold layer key to access BT pairing & RGB controls
              */
             bindings = <
-                &none           &none           &none           &none           &none           &bt BT_CLR      &out OUT_TOG    &none           &none           &trans
+                &none           &none           &none           &none           &none           &bt BT_CLR      &out OUT_TOG    &rgb_ug RGB_TOG &none           &trans
                 &bt BT_SEL 0    &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI &rgb_ug RGB_EFF &none           &none           &none           &none
-                &rgb_ug RGB_TOG &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &rgb_ug RGB_EFR &none           &none           &none           &none
+                &none           &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &rgb_ug RGB_EFR &none           &none           &none           &none
                 &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4    &none           &sys_reset      &none           &none           &none           &bootloader
                 &none           &none           &none           &none           &none           &none           &none           &none           &none           &none
             >;
@@ -80,20 +72,17 @@
 };
 
 /*
- * KNOWN ISSUES:
- * 1. F1-F5 don't work (columns 0-4 dead)
- * 2. SORT/ORDER doesn't work (column 0 or dead switch)
- * 3. M4 doesn't work (column 0 or dead switch)  
- * 4. Encoder push doesn't work (need to fix COL9/NFC pin issue)
- * 5. Encoder direction reversed (fixed in this keymap)
- *
- * PHYSICAL KEY → CURRENT FUNCTION:
- * Row 1: [dead] [dead] [dead] [dead] [dead] F6 | ESC | UP | PSCRN(layer) | Encoder
- * Row 2: ALT | 7 | 8 | 9 | F7 | F9 | TAB | F11
- * Row 3: SHIFT | 4 | 5 | 6 | F8 | F10 | PAUSE | LEFT | DOWN | RIGHT
- * Row 4: 0 | 1 | 2 | 3 | DOT | ENTER | -- | HOME
- * Row 5: DEL | COMMA | DOT | PGUP | PGDN | INS | END | [dead]
- *
- * TO CUSTOMIZE: Edit the bindings above to map each key to what you want
- * SP3000-specific functions would need custom keycodes or macros
+ * KEY MAPPINGS SUMMARY:
+ * 
+ * Numbers 0-9: Correct numpad positions
+ * Arrows ↑←↓→: Send correct arrow keys
+ * Function keys: F6-F10 work, F1-F5 hardware dead (remapped F1-F2 to bottom row keys)
+ * ALT, SHIFT: Correct modifiers
+ * ENTER: Green START/ENTER key now sends ENTER
+ * FIELD: F12 (custom function key)
+ * M1/M2/M3: F11/F13/F14 (macro keys)
+ * Media keys: Play/pause/prev/next for ◁◀▶▷
+ * PRINT/STOP, SCAN/CANCEL, COLOR KEY: All send ESC (cancel functions)
+ * PSET, PASS: F1, F2 (since F1-F5 hardware dead, reuse codes)
+ * +3D: Decimal point (KP_DOT)
  */
