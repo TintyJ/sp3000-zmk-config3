@@ -99,7 +99,7 @@ row-gpios
             ;
     };
 
-    /*
+ /*
      * External power control — required by ZMK RGB underglow.
      * This PCB has no hardware power-cut MOSFET for the LEDs
      * (U3 level shifter OE is hardwired to GND = always enabled).
@@ -107,6 +107,9 @@ row-gpios
      * not routed to anything on your PCB. If it is, pick a
      * different unconnected GPIO.
      */
+    ext_power {
+        compatible = "zmk,ext-power-generic";
+        control-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
     };
 
     /* Rotary Encoder — EC11E09244BS (80 detents, 20 triggers/rotation) */
