@@ -110,7 +110,7 @@ row-gpios
      */
 ext_power {
     compatible = "zmk,ext-power-generic";
-    control-gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
+    control-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
 };
 
     /* Rotary Encoder — EC11E09244BS (80 detents, 20 triggers/rotation) */
@@ -238,14 +238,14 @@ ext_power {
     pinctrl-names = "default", "sleep";
 
     led_strip: ws2812@0 {
-        compatible = "worldsemi,ws2812-spi";
-        reg = <0>;
-        spi-max-frequency = <4000000>;
-        chain-length = <43>;
-        spi-one-frame = <0x70>;
-        spi-zero-frame = <0x40>;
-        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
-    };
+    compatible = "worldsemi,ws2812-spi";
+    reg = <0>;
+    spi-max-frequency = <5250000>;
+    chain-length = <43>;
+    spi-one-frame = <0x7C>;
+    spi-zero-frame = <0x60>;
+    color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+};
 };
 
 /* ── Pin Control ─────────────────────────────────────── */
