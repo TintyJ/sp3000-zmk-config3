@@ -32,22 +32,22 @@
              *
              * Each position corrected to send what the physical key label indicates
              */
-            bindings = <
-                // R0: F1-F5 dead, F6, PRINT/STOP→ESC, SCAN/CANCEL→ESC, SORT/ORDER dead
-                &none       &none       &none       &none       &none       &kp F6      &kp ESC         &kp ESC         &none           &none
-                
-                // R1: ALT, 7, 8, 9, FILM DRIVE→F7, FULL PANO→F9, ↑→UP, M1→RGB_TOGGLE
-                &kp LALT    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp F7      &kp F9      &kp UP          &rgb_ug RGB_TOG &none           &none
-                
-                // R2: SHIFT, 4, 5, 6, HOLD→F8, PRINT SIZE→F10, ←→LEFT, FIELD→F12, →→RIGHT, M2→F13
-                &kp LSHFT   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp F8      &kp F10     &kp LEFT        &kp F12         &kp RIGHT       &kp F13
-                
-                // R3: 0→KP0, 1→KP1, 2→KP2, 3→KP3, +3D→KP_DOT, COLOR KEY→ESC, ↓→DOWN, M3→LAYER
-                &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_DOT  &kp ESC     &none           &kp DOWN        &none           &mo BT_CTRL
-                
-                // R4: PSET→F1, ◁→PREV, ◀→REWIND, ▶→PLAY, ▷→NEXT, PASS→F2, START/ENTER→ENTER, M4 dead
-                &kp F1      &kp C_PREV  &kp C_RW    &kp C_PP    &kp C_FF    &kp F2      &kp RET         &none           &none           &none
-            >;
+        bindings = 
+    // R0: F1-F5 dead, F6, PRINT/STOP→ESC, SCAN/CANCEL→ESC, SORT/ORDER dead
+    &none       &none       &none       &none       &none       &kp F6      &kp ESC         &kp ESC         &none           &none
+    
+    // R1: ALT, 7, 8, 9, FILM DRIVE→F7, FULL PANO→F9, ↑→UP, M1→F11 (test key position)
+    &kp LALT    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp F7      &kp F9      &kp UP          &kp F11         &none           &none
+    
+    // R2: SHIFT, 4, 5, 6, HOLD→F8, PRINT SIZE→F10, ←→LEFT, FIELD→F12, →→RIGHT, M2→RGB_TOGGLE
+    &kp LSHFT   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp F8      &kp F10     &kp LEFT        &kp F12         &kp RIGHT       &rgb_ug RGB_TOG
+    
+    // R3: 0→KP0, 1→KP1, 2→KP2, 3→KP3, +3D→KP_DOT, COLOR KEY→ESC, ↓→DOWN, M3→LAYER
+    &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_DOT  &kp ESC     &none           &kp DOWN        &none           &mo BT_CTRL
+    
+    // R4: PSET→F1, ◁→PREV, ◀→REWIND, ▶→PLAY, ▷→NEXT, PASS→F2, START/ENTER→ENTER, M4 dead
+    &kp F1      &kp C_PREV  &kp C_RW    &kp C_PP    &kp C_FF    &kp F2      &kp RET         &none           &none           &none
+>;
             
             // Encoder: Fixed reversed direction
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
