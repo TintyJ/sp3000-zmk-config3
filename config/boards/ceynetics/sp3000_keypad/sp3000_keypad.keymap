@@ -1,9 +1,6 @@
 /*
  * SP3000 Scanner Keypad — ZMK Keymap
- * LABEL-CORRECT MAPPING - Each key sends what its label says
- *
- * Based on systematic testing to identify physical positions,
- * then remapped so each key does what its label indicates.
+ * TEST VERSION - M2 has RGB toggle, M1 has F11
  */
 
 #include <behaviors.dtsi>
@@ -21,45 +18,19 @@
 
         default_layer {
             display-name = "SP3000";
-            /*
-             * Physical key labels → What they now send
-             * ==========================================
-             * ROW 0: F1-F5(dead), F6, PRINT/STOP, SCAN/CANCEL, SORT/ORDER(dead), encoder
-             * ROW 1: ALT, 7, 8, 9, FILM DRIVE, FULL PANO, ↑, M1
-             * ROW 2: SHIFT, 4, 5, 6, HOLD, PRINT SIZE, ←, FIELD, →, M2
-             * ROW 3: 0, 1, 2, 3, +3D, COLOR KEY, ↓, M3
-             * ROW 4: PSET, ◁, ◀, ▶, ▷, PASS, START/ENTER, M4(dead)
-             *
-             * Each position corrected to send what the physical key label indicates
-             */
-        bindings = 
-    // R0: F1-F5 dead, F6, PRINT/STOP→ESC, SCAN/CANCEL→ESC, SORT/ORDER dead
-    &none       &none       &none       &none       &none       &kp F6      &kp ESC         &kp ESC         &none           &none
-    
-    // R1: ALT, 7, 8, 9, FILM DRIVE→F7, FULL PANO→F9, ↑→UP, M1→F11 (test key position)
-    &kp LALT    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp F7      &kp F9      &kp UP          &kp F11         &none           &none
-    
-    // R2: SHIFT, 4, 5, 6, HOLD→F8, PRINT SIZE→F10, ←→LEFT, FIELD→F12, →→RIGHT, M2→RGB_TOGGLE
-    &kp LSHFT   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp F8      &kp F10     &kp LEFT        &kp F12         &kp RIGHT       &rgb_ug RGB_TOG
-    
-    // R3: 0→KP0, 1→KP1, 2→KP2, 3→KP3, +3D→KP_DOT, COLOR KEY→ESC, ↓→DOWN, M3→LAYER
-    &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_DOT  &kp ESC     &none           &kp DOWN        &none           &mo BT_CTRL
-    
-    // R4: PSET→F1, ◁→PREV, ◀→REWIND, ▶→PLAY, ▷→NEXT, PASS→F2, START/ENTER→ENTER, M4 dead
-    &kp F1      &kp C_PREV  &kp C_RW    &kp C_PP    &kp C_FF    &kp F2      &kp RET         &none           &none           &none
->;
+            bindings = <
+                &none       &none       &none       &none       &none       &kp F6      &kp ESC         &kp ESC         &none           &none
+                &kp LALT    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp F7      &kp F9      &kp UP          &kp F11         &none           &none
+                &kp LSHFT   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp F8      &kp F10     &kp LEFT        &kp F12         &kp RIGHT       &rgb_ug RGB_TOG
+                &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_DOT  &kp ESC     &none           &kp DOWN        &none           &mo BT_CTRL
+                &kp F1      &kp C_PREV  &kp C_RW    &kp C_PP    &kp C_FF    &kp F2      &kp RET         &none           &none           &none
+            >;
             
-            // Encoder: Fixed reversed direction
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         bt_ctrl_layer {
             display-name = "BT/RGB";
-            /*
-             * Hold M3 to access BT pairing & RGB controls
-             * ALT→BT0, 7→Hue+, 8→Sat+, 9→Bright+, 4→Hue-, 5→Sat-, 6→Bright-
-             * Numbers 0-3 for BT slots 1-4, +3D for reset
-             */
             bindings = <
                 &none           &none           &none           &none           &none           &bt BT_CLR      &out OUT_TOG    &rgb_ug RGB_TOG &none           &trans
                 &bt BT_SEL 0    &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI &rgb_ug RGB_EFF &none           &none           &none           &none
@@ -72,23 +43,3 @@
         };
     };
 };
-
-/*
- * KEY MAPPINGS SUMMARY:
- * 
- * Numbers 0-9: Correct numpad positions
- * Arrows ↑←↓→: Send correct arrow keys
- * Function keys: F6-F10 work, F1-F5 hardware dead (remapped F1-F2 to bottom row keys)
- * ALT, SHIFT: Correct modifiers
- * ENTER: Green START/ENTER key now sends ENTER
- * FIELD: F12 (custom function key)
- * M1: RGB toggle (press to turn LEDs on/off)
- * M2: F13 (macro key)
- * M3: Layer toggle (hold to access BT pairing and RGB controls)
- * Media keys: Play/pause/prev/next for ◁◀▶▷
- * PRINT/STOP, SCAN/CANCEL, COLOR KEY: All send ESC (cancel functions)
- * PSET, PASS: F1, F2 (since F1-F5 hardware dead, reuse codes)
- * +3D: Decimal point (KP_DOT)
- * 
- * To access BT pairing: Hold M3, then press ALT for BT slot 0, or press 7/8/9 for other slots
- */
