@@ -31,7 +31,7 @@ chosen {
     zmk,matrix-transform = &default_transform;
     zmk,underglow = &led_strip;
     zmk,battery = &fuelgauge;
-    zmk,ext-power = &ext_power;  // <-- ADD THIS BACK
+    zmk,ext-power = &ext_power;
 };
 
     default_transform: keymap_transform_0 {
