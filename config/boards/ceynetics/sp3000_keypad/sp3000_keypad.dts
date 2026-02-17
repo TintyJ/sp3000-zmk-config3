@@ -240,10 +240,10 @@ ext_power {
 led_strip: ws2812@0 {
     compatible = "worldsemi,ws2812-spi";
     reg = <0>;
-    spi-max-frequency = <2400000>;  // SK6812 needs slower timing
+    spi-max-frequency = <3200000>;
     chain-length = <43>;
-    spi-one-frame = <0x7E>;         // SK6812 timing
-    spi-zero-frame = <0x60>;        // SK6812 timing  
+    spi-one-frame = <0xF0>;
+    spi-zero-frame = <0xC0>;
     color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
 };
 };
