@@ -240,9 +240,9 @@ ext_power {
 led_strip: ws2812@0 {
     compatible = "worldsemi,ws2812-spi";
     reg = <0>;
-    spi-max-frequency = <3200000>;
+    spi-max-frequency = <6000000>;  // Higher frequency
     chain-length = <43>;
-    spi-one-frame = <0xF0>;
+    spi-one-frame = <0xF8>;         // Different bit patterns
     spi-zero-frame = <0xC0>;
     color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
 };
