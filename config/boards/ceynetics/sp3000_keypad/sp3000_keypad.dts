@@ -110,7 +110,7 @@ row-gpios
      */
 ext_power {
     compatible = "zmk,ext-power-generic";
-    control-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
+    control-gpios = <&gpio0 17 GPIO_ACTIVE_HIGH>;  // P0.17, not P0.04!
 };
 
     /* Rotary Encoder — EC11E09244BS (80 detents, 20 triggers/rotation) */
