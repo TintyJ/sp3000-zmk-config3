@@ -1,6 +1,8 @@
 /*
  * SP3000 Scanner Keypad — ZMK Keymap
- * TEST VERSION - M2 has RGB toggle, M1 has F11
+ * MAPPED TO ORIGINAL SP3000 SCANNER KEYBOARD
+ *
+ * Based on testing the original Fuji SP3000 keyboard
  */
 
 #include <behaviors.dtsi>
@@ -18,28 +20,84 @@
 
         default_layer {
             display-name = "SP3000";
+            /*
+             * Mapped to match original SP3000 scanner keyboard
+             *
+             * Physical Layout → Keycode
+             * ==========================================
+             * R0: F1, F2, F3, F4, F5, F6, PAUSE, ESC, DELETE, [M col: custom]
+             * R1: ALT, 7, 8, 9, F7, F8, [empty], UP, [empty], [M1: custom]
+             * R2: SHIFT, 4, 5, 6, F9, F10, LEFT, TAB, RIGHT, [M2: custom]
+             * R3: 0, 1, 2, 3, F11(+3D), BACKSPACE, [empty], DOWN, [empty], [M3: custom]
+             * R4: F12, Z, X, C, V, SPACE, [empty], ENTER, [empty], [M4: custom]
+             */
             bindings = <
-                &none       &none       &none       &none       &none       &kp F6      &kp ESC         &kp ESC         &none           &none
-                &kp LALT    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp F7      &kp F9      &kp UP          &kp F11         &none           &none
-                &kp LSHFT   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp F8      &kp F10     &kp LEFT        &kp F12         &kp RIGHT       &rgb_ug RGB_TOG
-                &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp KP_DOT  &kp ESC     &none           &kp DOWN        &none           &mo BT_CTRL
-                &kp F1      &kp C_PREV  &kp C_RW    &kp C_PP    &kp C_FF    &kp F2      &kp RET         &none           &none           &none
+                // R0: F1-F6, PRINT/STOP→PAUSE, SCAN/CANCEL→ESC, SORT/ORDER→DELETE, empty
+                &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &kp F6      &kp PAUSE_BREAK &kp ESC     &kp DEL         &kp N3
+                
+                // R1: ALT, 7-9, FILM DRIVE→F7, FULL PANO→F8, empty, ↑→UP, empty, M1
+                &kp LALT    &kp N7      &kp N8      &kp N9      &kp F7      &kp F8      &none           &kp UP      &none           &rgb_ug RGB_TOG
+                
+                // R2: SHIFT, 4-6, HOLD→F9, PRINT SIZE→F10, ←→LEFT, FIELD→TAB, →→RIGHT, M2
+                &kp LSHFT   &kp N4      &kp N5      &kp N6      &kp F9      &kp F10     &kp LEFT        &kp TAB     &kp RIGHT       &mo BT_CTRL
+                
+                // R3: 0-3, +3D→F11, COLOR KEY→BACKSPACE, empty, ↓→DOWN, empty, M3→custom (F14)
+                &kp N0      &kp N1      &kp N2      &kp N3      &kp F11     &kp BSPC    &none           &kp DOWN    &none           &kp F14
+                
+                // R4: PSET→F12, ◁→Z, ◀→X, ▶→C, ▷→V, PASS→SPACE, empty, START/ENTER→ENTER, empty, M4
+                &kp F12     &kp Z       &kp X       &kp C       &kp V       &kp SPACE   &none           &kp RET     &none           &none
             >;
             
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            sensor-bindings = <&inc_dec_kp Z V>;
         };
 
         bt_ctrl_layer {
             display-name = "BT/RGB";
+            /*
+             * Hold M2 to access BT pairing & RGB controls
+             */
             bindings = <
-                &none           &none           &none           &none           &none           &bt BT_CLR      &out OUT_TOG    &rgb_ug RGB_TOG &none           &trans
+                &bt BT_CLR      &none           &none           &none           &none           &none           &none           &none           &none           &trans
                 &bt BT_SEL 0    &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI &rgb_ug RGB_EFF &none           &none           &none           &none
-                &none           &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &rgb_ug RGB_EFR &none           &none           &none           &none
+                &none           &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &rgb_ug RGB_EFR &none           &none           &none           &trans
                 &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4    &none           &sys_reset      &none           &none           &none           &bootloader
-                &none           &none           &none           &none           &none           &none           &none           &none           &none           &none
+                &none           &none           &none           &none           &none           &out OUT_TOG    &none           &none           &none           &none
             >;
             
-            sensor-bindings = <&inc_dec_kp C_BRI_DN C_BRI_UP>;
+            sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN>;
         };
     };
 };
+
+/*
+ * KEY MAPPINGS SUMMARY:
+ * 
+ * Original SP3000 Scanner Functions:
+ * - F1-F6: Function keys (original)
+ * - PRINT/STOP: PAUSE key
+ * - SCAN/CANCEL: ESC key
+ * - SORT/ORDER: DELETE key
+ * - Number keys 0-9: Regular numbers (not numpad)
+ * - Color keys: -C/7→7, -M/8→8, -Y/9→9, +C/4→4, +M/5→5, +Y/6→6
+ * - Density keys: -3D/0→0, -D/1→1, N/2→2, +D/3→3, +3D→F11
+ * - FILM DRIVE: F7
+ * - FULL PANO: F8
+ * - HOLD: F9
+ * - PRINT SIZE: F10
+ * - COLOR KEY CANCEL: F11
+ * - PSET: F12
+ * - Arrow keys: Standard arrow keys
+ * - FIELD: TAB
+ * - Down arrow: BACKSPACE (on original!)
+ * - M3: DOWN arrow
+ * - Playback keys: Z, X, C, V
+ * - PASS: SPACE
+ * - START/ENTER: ENTER
+ * 
+ * Custom programmable keys (rightmost column - not on original):
+ * - M1: RGB toggle (or program to anything)
+ * - M2: Hold for BT/RGB layer (or program to anything)
+ * - M3: F14 (or program to anything)
+ * - M4: Empty (program to anything)
+ * - Encoder: Volume control
+ */
