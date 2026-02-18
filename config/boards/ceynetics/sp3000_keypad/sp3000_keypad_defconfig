@@ -68,3 +68,6 @@ CONFIG_SETTINGS_NVS=y
 CONFIG_FLASH=y
 CONFIG_FLASH_PAGE_LAYOUT=y
 CONFIG_FLASH_MAP=y
+
+# ── ZMK Studio (live keymap editing) ──────────────────
+CONFIG_ZMK_STUDIO=y
